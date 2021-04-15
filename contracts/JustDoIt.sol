@@ -101,9 +101,10 @@ contract JustDoIt {
         Result finalResult = _getFinalResult(_key);
         Result ownerResult = challenge.resultFromOwner;
         if (finalResult == ownerResult) {
-            // If Success, Should receive his original staking + all supporters staking amounts.
+            // 1. If Success, receive his original staking + all supporters staking amounts.
             uint amountStaked = finalResult == Result.Success ? challenge.amountStaked + challenge.supprtersAmountStaked: 0;
-            // TODO: should receive JDI tokens for trying or completing the challenge succefully.
+
+            // 2. Receive 1% of the staked amount in JDI tokens for trying to or completing the challenge.
             uint JDIAmount = (challenge.amountStaked + challenge.supprtersAmountStaked) / 100;
             return (amountStaked, JDIAmount);
         } else {
@@ -123,14 +124,14 @@ contract JustDoIt {
         Result finalResult = _getFinalResult(_key);
         Result supporterResult = supporters[msg.sender][_key].result;
         if (finalResult == supporterResult) {
-            // Incase of a failure, should receive his amount staked back.
+            // 1. Incase of a failure, should receive his staked amount.
             uint amountStaked = finalResult == Result.Failure ? supporters[msg.sender][_key].amountStaked : 0;
-            // TODO: should receive JDI tokens for supporting and voting honestly.
+
+            // 2. Receive his proportional share from 30% of the amount staked, in JDI tokens, for supporting and voting honestly.
             Challenge memory challenge = _getChallenge(_key);
             uint totalAmount = challenge.supprtersAmountStaked;
             uint totalShare = totalAmount * 30 / 100;
-            uint supporterShare = supporters[msg.sender][_key].amountStaked / totalAmount;
-            uint JDIAmount = totalShare * supporterShare;
+            uint JDIAmount = totalShare * supporters[msg.sender][_key].amountStaked / totalAmount;
 
             return (amountStaked, JDIAmount);
         } else {
@@ -260,7 +261,7 @@ contract JustDoIt {
 
     modifier challengeIsOver(string memory _key) {
         require(isChallengeExists(_key), 'Challenge not found');
-        require(challenges[challengeIndexByKey[_key] - 1].deadLine > block.timestamp + 1 weeks, 'Challenge reporting is still going');
+        require(block.timestamp > challenges[challengeIndexByKey[_key] - 1].deadLine + 1 weeks, 'Challenge reporting is still going');
         _;
     }
 }
