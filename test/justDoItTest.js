@@ -271,6 +271,65 @@ contract('JustDoIt', (accounts) => {
           assert(error.reason == 'No more rewards', `ERROR:${error.reason}`)
         }
       })
+
+      it('Collecting challenge fees', async () => {
+        const ethBalanceBefore = web3.utils.fromWei(
+          await instance.totalFeesAmount(),
+        )
+        const jdiBalanceBefore = web3.utils.fromWei(
+          await jdiToken.balanceOf(instance.address),
+        )
+        await instance.collectChallengeFees(challengeName, {
+          from: admin,
+        })
+        const ethBalanceAfter = web3.utils.fromWei(
+          await instance.totalFeesAmount(),
+        )
+        const jdiBalanceAfter = web3.utils.fromWei(
+          await jdiToken.balanceOf(instance.address),
+        )
+        const totalWei = ethBalanceAfter - ethBalanceBefore
+        const totalJdi = jdiBalanceAfter - jdiBalanceBefore
+        assert(totalWei > 0, 'should get ETH fees')
+        assert(totalJdi > 0, 'Should get JDI fees')
+      })
+
+      it('Collecting all fees', async () => {
+        const ethDeployerBalanceBefore = web3.utils.fromWei(
+          await web3.eth.getBalance(admin),
+        )
+        const jdiDeployerBalanceBefore = web3.utils.fromWei(
+          await jdiToken.balanceOf(admin),
+        )
+        const jdiBalanceBefore = web3.utils.fromWei(
+          await jdiToken.balanceOf(instance.address),
+        )
+        await instance.collectFees({
+          from: admin,
+        })
+        const ethBalanceAfter = web3.utils.fromWei(
+          await instance.totalFeesAmount(),
+        )
+        const ethDeployerBalanceAfter = web3.utils.fromWei(
+          await web3.eth.getBalance(admin),
+        )
+        const jdiDeployerBalanceAfter = web3.utils.fromWei(
+          await jdiToken.balanceOf(admin),
+        )
+        const jdiBalanceAfter = web3.utils.fromWei(
+          await jdiToken.balanceOf(instance.address),
+        )
+        const totalEthDeployer =
+          ethDeployerBalanceAfter - ethDeployerBalanceBefore
+        const totalJdiDeployer =
+          jdiDeployerBalanceAfter - jdiDeployerBalanceBefore
+        const totalJdi = jdiBalanceAfter - jdiBalanceBefore
+
+        assert(ethBalanceAfter == 0, 'should send all ETH as fees')
+        assert(totalEthDeployer > 0, 'Should get more ETH as fees')
+        assert(totalJdiDeployer > 0, 'Should get JDI as fees')
+        assert(totalJdi < 0, 'Should burn 10% of collected JustDoit JDI')
+      })
     })
   })
 })

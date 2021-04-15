@@ -32,10 +32,10 @@ contract JustDoIt {
 
     address public deployer;
     Challenge[] public challenges;
+    uint public totalFeesAmount = 0;
     mapping(string => uint) challengeIndexByKey;
     mapping(address => mapping(string => Supporter)) supporters;
     mapping(address => string[]) challengeByAccount;
-    uint totalFeesAmount = 10;
 
     constructor(address _deployer, address _jdiToken) {
         deployer = _deployer;
@@ -83,9 +83,7 @@ contract JustDoIt {
 
     function _getFees(string memory _key) internal view returns (uint) {
         Challenge memory challenge = _getChallenge(_key);
-        Result finalResult = _getFinalResult(_key);
-        Result ownerResult = challenge.resultFromOwner;
-        if (finalResult != ownerResult) {
+        if (_getFinalResult(_key) != challenge.resultFromOwner) {
             return challenge.amountStaked;
         }
         return 0;
@@ -216,20 +214,20 @@ contract JustDoIt {
     function collectChallengeFees(string memory _key) challengeIsOver(_key) external {
         uint index = challengeIndexByKey[_key];
         require(!challenges[index - 1].gotFees, 'No more fees');
+        challenges[index - 1].gotFees = true;
         uint amountStaked = _getFees(_key);
         totalFeesAmount += amountStaked;
-        challenges[index - 1].gotFees = true;
         jdiToken.mint(address(this), amountStaked * 2 / 1000); // 0.2%
     }
 
     function collectFees() external {
         require(msg.sender == deployer, 'Only deployer');
-        require(totalFeesAmount > 0, 'No Fees');
+        require(totalFeesAmount > 0, 'No fees');
         uint total = totalFeesAmount;
         totalFeesAmount = 0;
         payable(deployer).transfer(total);
-        uint balance = jdiToken.balanceOf(address(this));
-        jdiToken.burn(address(this), balance * 10 / 100);
+        jdiToken.burn(address(this), jdiToken.balanceOf(address(this)) * 10 / 100);
+        jdiToken.transfer(deployer, jdiToken.balanceOf(address(this)));
     }
 
     function isChallengeExists(string memory _key) public view returns(bool) {
