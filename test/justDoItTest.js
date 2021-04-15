@@ -2,6 +2,11 @@ const { time } = require('@openzeppelin/test-helpers')
 const JustDoIt = artifacts.require('JustDoIt')
 const JDIToken = artifacts.require('JDIToken')
 
+const Result = {
+  success: 1,
+  failure: 2
+}
+
 contract('JustDoIt', (accounts) => {
   ;[admin, owner, supporter1, supporter2] = accounts
 
@@ -117,7 +122,7 @@ contract('JustDoIt', (accounts) => {
     describe('Reporting While Challenge In Progress Tests', () => {
       it('Can not report if challenge not over (as a supporter)', async () => {
         try {
-          await instance.supporterReportResult(challengeName, 1, {
+          await instance.supporterReportResult(challengeName, Result.success, {
             from: supporter1,
           })
           assert(false, 'Was able to report still')
@@ -128,7 +133,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge not over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeName, 1, {
+          await instance.ownerReportResult(challengeName, Result.success, {
             from: owner,
           })
           assert(false, 'Was able to report still')
@@ -145,7 +150,7 @@ contract('JustDoIt', (accounts) => {
       })
 
       it('Reporting on Failure (as a supporter1)', async () => {
-        await instance.supporterReportResult(challengeName, 2, {
+        await instance.supporterReportResult(challengeName, Result.failure, {
           from: supporter1,
         })
         const challenge = await instance.getChallenge(challengeName, {
@@ -155,7 +160,7 @@ contract('JustDoIt', (accounts) => {
       })
 
       it('Reporting on Failure (as a supporter2)', async () => {
-        await instance.supporterReportResult(challengeName, 2, {
+        await instance.supporterReportResult(challengeName, Result.failure, {
           from: supporter2,
         })
         const challenge = await instance.getChallenge(challengeName, {
@@ -165,7 +170,7 @@ contract('JustDoIt', (accounts) => {
       })
 
       it('Reporting on Success (as a owner)', async () => {
-        await instance.ownerReportResult(challengeName, 1, {
+        await instance.ownerReportResult(challengeName, Result.success, {
           from: owner,
         })
         const challenge = await instance.getChallenge(challengeName, {
@@ -186,7 +191,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge is over (as a supporter)', async () => {
         try {
-          await instance.supporterReportResult(challengeName, 1, {
+          await instance.supporterReportResult(challengeName, Result.success, {
             from: supporter1,
           })
           assert(false, 'Was able to report still')
@@ -197,7 +202,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge is over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeName, 1, {
+          await instance.ownerReportResult(challengeName, Result.success, {
             from: owner,
           })
           assert(false, 'Was able to report still')
