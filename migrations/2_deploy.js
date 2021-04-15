@@ -1,6 +1,11 @@
+const JDIToken = artifacts.require('JDIToken')
 const JustDoIt = artifacts.require('JustDoIt')
 
-module.exports = function (deployer, network, accounts) {
+module.exports = async (deployer, network, accounts) => {
   const [owner] = accounts
-  deployer.deploy(JustDoIt, owner)
+  await deployer.deploy(JDIToken)
+  const jdiToken = await JDIToken.deployed()
+  await deployer.deploy(JustDoIt, owner, jdiToken.address)
+  const justDoIt = await JustDoIt.deployed()
+  await jdiToken.setMiner(justDoIt.address)
 }
