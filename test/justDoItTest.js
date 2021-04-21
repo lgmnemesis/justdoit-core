@@ -14,6 +14,8 @@ contract('JustDoIt', (accounts) => {
     let instance
     const challengeName = 'challengeName1'
     const challenge2Name = 'challengeName2'
+    const ChallengeAddedEvent = 'ChallengeAdded'
+    const SupportChallengeEvent = 'SupportChallenge'
     const amountToSpend = '1'
     const amountToSupport = '0.2'
     let date, correctDeadLine, passedDeadLine
@@ -28,19 +30,34 @@ contract('JustDoIt', (accounts) => {
 
     describe('New Challenge Tests', () => {
       it('Adding new challenge', async () => {
-        const initialChallenges = await instance.getChallenges({ from: owner })
-        assert(
-          initialChallenges.length == 0,
-          'Initialy, challenges array length should be Zero',
-        )
-        await instance.addChallengeETH(challengeName, correctDeadLine, {
+        const initialChallenges = await instance.challenges(challengeName, {
           from: owner,
-          value: web3.utils.toWei(amountToSpend, 'ether'),
         })
-        const currentChallenges = await instance.getChallenges({ from: owner })
         assert(
-          currentChallenges.length == 1,
-          'After adding a new challenge, challenges array length should be One',
+          initialChallenges.key == '',
+          `Initialy, challenge  ${challengeName} should Not exists`,
+        )
+        const tx = await instance.addChallengeETH(
+          challengeName,
+          correctDeadLine,
+          {
+            from: owner,
+            value: web3.utils.toWei(amountToSpend, 'ether'),
+          },
+        )
+
+        const log = tx.logs[0]
+        assert(
+          log.event == ChallengeAddedEvent,
+          `Event ${ChallengeAddedEvent} was not emitet`,
+        )
+
+        const currentChallenges = await instance.challenges(challengeName, {
+          from: owner,
+        })
+        assert(
+          currentChallenges.key == challengeName,
+          `After adding a new challenge, ${challengeName} should exists`,
         )
       })
 
@@ -91,16 +108,23 @@ contract('JustDoIt', (accounts) => {
 
     describe('Supporting Challenge Tests', () => {
       it('Support a challenge', async () => {
-        await instance.supportChallenge(challengeName, {
+        const tx = await instance.supportChallenge(challengeName, {
           from: supporter1,
           value: web3.utils.toWei(amountToSupport, 'ether'),
         })
-        const challenge = await instance.getChallenge(challengeName, {
+        const challenge = await instance.challenges(challengeName, {
           from: supporter1,
         })
+
+        const log = tx.logs[0]
         assert(
-          challenge.supporters[0] == supporter1,
-          'Supporter address was not added to challenge',
+          log.event == SupportChallengeEvent,
+          `Event ${SupportChallengeEvent} was not emitet`,
+        )
+
+        assert(
+          challenge.supporters == 1,
+          'Supporter1 was not added to challenge',
         )
       })
 
@@ -109,12 +133,12 @@ contract('JustDoIt', (accounts) => {
           from: supporter2,
           value: web3.utils.toWei(amountToSupport, 'ether'),
         })
-        const challenge = await instance.getChallenge(challengeName, {
+        const challenge = await instance.challenges(challengeName, {
           from: supporter2,
         })
         assert(
-          challenge.supporters[1] == supporter2,
-          'Supporter address was not added to challenge',
+          challenge.supporters == 2,
+          'Supporter2 was not added to challenge',
         )
       })
     })
@@ -153,7 +177,7 @@ contract('JustDoIt', (accounts) => {
         await instance.supporterReportResult(challengeName, Result.failure, {
           from: supporter1,
         })
-        const challenge = await instance.getChallenge(challengeName, {
+        const challenge = await instance.challenges(challengeName, {
           from: supporter1,
         })
         assert(challenge.failures == 1, 'Reporting on failure.... failed')
@@ -163,7 +187,7 @@ contract('JustDoIt', (accounts) => {
         await instance.supporterReportResult(challengeName, Result.failure, {
           from: supporter2,
         })
-        const challenge = await instance.getChallenge(challengeName, {
+        const challenge = await instance.challenges(challengeName, {
           from: supporter2,
         })
         assert(challenge.failures == 2, 'Reporting on failure.... failed')
@@ -173,7 +197,7 @@ contract('JustDoIt', (accounts) => {
         await instance.ownerReportResult(challengeName, Result.success, {
           from: owner,
         })
-        const challenge = await instance.getChallenge(challengeName, {
+        const challenge = await instance.challenges(challengeName, {
           from: owner,
         })
         assert(
