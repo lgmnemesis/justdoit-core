@@ -12,8 +12,14 @@ contract('JustDoIt', (accounts) => {
 
   describe('', () => {
     let instance
-    const challengeName = 'challengeName1'
-    const challenge2Name = 'challengeName2'
+    const challengeID = web3.utils.asciiToHex(
+      'utajiot9ouyfqpxr3x77ylybvqzimbde',
+    ) // bytes32
+    const challengeName = 'challenge1'
+    const challenge2ID = web3.utils.asciiToHex(
+      'zr15p0jbi0o4esc663h7zb4yb1ekuids',
+    ) // bytes32
+    const challenge2Name = 'challenge2'
     const ChallengeAddedEvent = 'ChallengeAdded'
     const SupportChallengeEvent = 'SupportChallenge'
     const amountToSpend = '1'
@@ -30,14 +36,16 @@ contract('JustDoIt', (accounts) => {
 
     describe('New Challenge Tests', () => {
       it('Adding new challenge', async () => {
-        const initialChallenges = await instance.challenges(challengeName, {
+        const initialChallenges = await instance.challenges(challengeID, {
           from: owner,
         })
         assert(
-          initialChallenges.key == '',
-          `Initialy, challenge  ${challengeName} should Not exists`,
+          initialChallenges.id ==
+            '0x0000000000000000000000000000000000000000000000000000000000000000',
+          `Initialy, challenge  ${challengeID} should Not exists`,
         )
         const tx = await instance.addChallengeETH(
+          challengeID,
           challengeName,
           correctDeadLine,
           {
@@ -52,21 +60,27 @@ contract('JustDoIt', (accounts) => {
           `Event ${ChallengeAddedEvent} was not emitet`,
         )
 
-        const currentChallenges = await instance.challenges(challengeName, {
+        const currentChallenges = await instance.challenges(challengeID, {
           from: owner,
         })
+
         assert(
-          currentChallenges.key == challengeName,
-          `After adding a new challenge, ${challengeName} should exists`,
+          currentChallenges.id == challengeID,
+          `After adding a new challenge, ${challengeID} should exists`,
         )
       })
 
       it('Not allowing adding the same challenge again', async () => {
         try {
-          await instance.addChallengeETH(challengeName, correctDeadLine, {
-            from: owner,
-            value: web3.utils.toWei(amountToSpend, 'ether'),
-          })
+          await instance.addChallengeETH(
+            challengeID,
+            challengeName,
+            correctDeadLine,
+            {
+              from: owner,
+              value: web3.utils.toWei(amountToSpend, 'ether'),
+            },
+          )
           asset(false, 'This should NOT ended successfully')
         } catch (error) {
           const reason = error.reason
@@ -82,9 +96,14 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not add new challenge without funding', async () => {
         try {
-          await instance.addChallengeETH(challenge2Name, correctDeadLine, {
-            from: owner,
-          })
+          await instance.addChallengeETH(
+            challenge2ID,
+            challenge2Name,
+            correctDeadLine,
+            {
+              from: owner,
+            },
+          )
           asset(false, 'This should NOT ended successfully')
         } catch (error) {
           const reason = error.reason
@@ -94,10 +113,15 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not add new challenge with a deadline shorter then 24 hours', async () => {
         try {
-          await instance.addChallengeETH(challenge2Name, passedDeadLine, {
-            from: owner,
-            value: web3.utils.toWei(amountToSpend, 'ether'),
-          })
+          await instance.addChallengeETH(
+            challenge2ID,
+            challenge2Name,
+            passedDeadLine,
+            {
+              from: owner,
+              value: web3.utils.toWei(amountToSpend, 'ether'),
+            },
+          )
           asset(false, 'This should NOT ended successfully')
         } catch (error) {
           const reason = error.reason
@@ -108,11 +132,11 @@ contract('JustDoIt', (accounts) => {
 
     describe('Supporting Challenge Tests', () => {
       it('Support a challenge', async () => {
-        const tx = await instance.supportChallenge(challengeName, {
+        const tx = await instance.supportChallenge(challengeID, {
           from: supporter1,
           value: web3.utils.toWei(amountToSupport, 'ether'),
         })
-        const challenge = await instance.challenges(challengeName, {
+        const challenge = await instance.challenges(challengeID, {
           from: supporter1,
         })
 
@@ -129,11 +153,11 @@ contract('JustDoIt', (accounts) => {
       })
 
       it('Add another supporter to the challenge', async () => {
-        await instance.supportChallenge(challengeName, {
+        await instance.supportChallenge(challengeID, {
           from: supporter2,
           value: web3.utils.toWei(amountToSupport, 'ether'),
         })
-        const challenge = await instance.challenges(challengeName, {
+        const challenge = await instance.challenges(challengeID, {
           from: supporter2,
         })
         assert(
@@ -146,7 +170,7 @@ contract('JustDoIt', (accounts) => {
     describe('Reporting While Challenge In Progress Tests', () => {
       it('Can not report if challenge not over (as a supporter)', async () => {
         try {
-          await instance.supporterReportResult(challengeName, Result.success, {
+          await instance.supporterReportResult(challengeID, Result.success, {
             from: supporter1,
           })
           assert(false, 'Was able to report still')
@@ -157,7 +181,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge not over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeName, Result.success, {
+          await instance.ownerReportResult(challengeID, Result.success, {
             from: owner,
           })
           assert(false, 'Was able to report still')
@@ -174,30 +198,30 @@ contract('JustDoIt', (accounts) => {
       })
 
       it('Reporting on Failure (as a supporter1)', async () => {
-        await instance.supporterReportResult(challengeName, Result.failure, {
+        await instance.supporterReportResult(challengeID, Result.failure, {
           from: supporter1,
         })
-        const challenge = await instance.challenges(challengeName, {
+        const challenge = await instance.challenges(challengeID, {
           from: supporter1,
         })
         assert(challenge.failures == 1, 'Reporting on failure.... failed')
       })
 
       it('Reporting on Failure (as a supporter2)', async () => {
-        await instance.supporterReportResult(challengeName, Result.failure, {
+        await instance.supporterReportResult(challengeID, Result.failure, {
           from: supporter2,
         })
-        const challenge = await instance.challenges(challengeName, {
+        const challenge = await instance.challenges(challengeID, {
           from: supporter2,
         })
         assert(challenge.failures == 2, 'Reporting on failure.... failed')
       })
 
       it('Reporting on Success (as a owner)', async () => {
-        await instance.ownerReportResult(challengeName, Result.success, {
+        await instance.ownerReportResult(challengeID, Result.success, {
           from: owner,
         })
-        const challenge = await instance.challenges(challengeName, {
+        const challenge = await instance.challenges(challengeID, {
           from: owner,
         })
         assert(
@@ -215,7 +239,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge is over (as a supporter)', async () => {
         try {
-          await instance.supporterReportResult(challengeName, Result.success, {
+          await instance.supporterReportResult(challengeID, Result.success, {
             from: supporter1,
           })
           assert(false, 'Was able to report still')
@@ -226,7 +250,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge is over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeName, Result.success, {
+          await instance.ownerReportResult(challengeID, Result.success, {
             from: owner,
           })
           assert(false, 'Was able to report still')
@@ -243,7 +267,7 @@ contract('JustDoIt', (accounts) => {
           await jdiToken.balanceOf(supporter1),
         )
 
-        await instance.collectSupporterRewards(challengeName, {
+        await instance.collectSupporterRewards(challengeID, {
           from: supporter1,
         })
 
@@ -260,7 +284,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not collect supporter rewards again', async () => {
         try {
-          await instance.collectSupporterRewards(challengeName, {
+          await instance.collectSupporterRewards(challengeID, {
             from: supporter1,
           })
           assert(false, 'Was able to collect rewards more then once.')
@@ -277,7 +301,7 @@ contract('JustDoIt', (accounts) => {
           await jdiToken.balanceOf(owner),
         )
 
-        await instance.collectOwnerRewards(challengeName, {
+        await instance.collectOwnerRewards(challengeID, {
           from: owner,
         })
 
@@ -298,7 +322,7 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not collect owner rewards again', async () => {
         try {
-          await instance.collectOwnerRewards(challengeName, {
+          await instance.collectOwnerRewards(challengeID, {
             from: owner,
           })
           assert(false, 'Was able to collect rewards more then once.')
@@ -315,7 +339,7 @@ contract('JustDoIt', (accounts) => {
           await jdiToken.balanceOf(instance.address),
         )
 
-        await instance.collectChallengeFees(challengeName, {
+        await instance.collectChallengeFees(challengeID, {
           from: admin,
         })
 
