@@ -35,14 +35,12 @@ contract JustDoIt {
 
     event ChallengeAdded(bytes32 id, address indexed owner, string name, uint amountStaked, string token, uint indexed deadline);
     event SupportChallenge(address indexed supporter, bytes32 indexed id, uint amountStaked);
+    event OwnerReportResult(bytes32 id, address indexed owner, Result result);
+    event SupporterReportResult(bytes32 id, address indexed supporter, Result result);
 
     constructor(address _deployer, address _jdiToken) {
         deployer = _deployer;
         jdiToken = JDIToken(_jdiToken);
-    }
-
-    function getOwnerResult(bytes32 _id) external view returns (Result) {
-        return challenges[_id].resultFromOwner;
     }
 
     function getFinalResult(bytes32 _id) challengeIsOver(_id) external view returns(Result) {
@@ -145,18 +143,16 @@ contract JustDoIt {
     }
 
     function supporterReportResult(bytes32 _id, Result _result) canReport(_id, false) external {
-        if (_result == Result.Success) {
-            challenges[_id].successes++;
-            supporters[msg.sender][_id].result = Result.Success;
-        } else if (_result == Result.Failure) {
-            challenges[_id].failures++;
-            supporters[msg.sender][_id].result = Result.Failure; 
-        }
+        require(_result != Result.Initial, 'Can only report Success or Failure');
+        _result == Result.Success ? challenges[_id].successes++ : challenges[_id].failures++;
+        supporters[msg.sender][_id].result = _result; 
+        emit SupporterReportResult(_id, msg.sender, _result);
     }
     
     function ownerReportResult(bytes32 _id, Result _result) canReport(_id, true) external {
         require(_result != Result.Initial, 'Can only report Success or Failure');
         challenges[_id].resultFromOwner = _result;
+        emit OwnerReportResult(_id, msg.sender, _result);
     }
 
     function collectOwnerRewards(bytes32 _id) challengeIsOver(_id) external {
