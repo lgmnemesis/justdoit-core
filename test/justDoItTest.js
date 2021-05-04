@@ -24,6 +24,7 @@ contract('JustDoIt', (accounts) => {
     const SupportChallengeEvent = 'SupportChallenge'
     const amountToSpend = '1'
     const amountToSupport = '0.2'
+    const reportPath = 'this_is_an_ipfs_path_hash'
     let date, correctDeadLine, passedDeadLine
 
     before('', async () => {
@@ -181,9 +182,14 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge not over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeID, Result.success, {
-            from: owner,
-          })
+          await instance.ownerReportResult(
+            challengeID,
+            Result.success,
+            reportPath,
+            {
+              from: owner,
+            },
+          )
           assert(false, 'Was able to report still')
         } catch (error) {
           assert(error.reason == 'Not in a report time window', error.reason)
@@ -195,6 +201,24 @@ contract('JustDoIt', (accounts) => {
       before('', async () => {
         const duration = 172800 // 2 days
         await time.increase(duration)
+      })
+
+      it('Reporting on Success (as a owner)', async () => {
+        await instance.ownerReportResult(
+          challengeID,
+          Result.success,
+          reportPath,
+          {
+            from: owner,
+          },
+        )
+        const challenge = await instance.challenges(challengeID, {
+          from: owner,
+        })
+        assert(
+          challenge.resultFromOwner == 1,
+          'Reporting on success.... failed',
+        )
       })
 
       it('Reporting on Failure (as a supporter1)', async () => {
@@ -215,19 +239,6 @@ contract('JustDoIt', (accounts) => {
           from: supporter2,
         })
         assert(challenge.failures == 2, 'Reporting on failure.... failed')
-      })
-
-      it('Reporting on Success (as a owner)', async () => {
-        await instance.ownerReportResult(challengeID, Result.success, {
-          from: owner,
-        })
-        const challenge = await instance.challenges(challengeID, {
-          from: owner,
-        })
-        assert(
-          challenge.resultFromOwner == 1,
-          'Reporting on success.... failed',
-        )
       })
     })
 
@@ -250,9 +261,14 @@ contract('JustDoIt', (accounts) => {
 
       it('Can not report if challenge is over (as a owner)', async () => {
         try {
-          await instance.ownerReportResult(challengeID, Result.success, {
-            from: owner,
-          })
+          await instance.ownerReportResult(
+            challengeID,
+            Result.success,
+            reportPath,
+            {
+              from: owner,
+            },
+          )
           assert(false, 'Was able to report still')
         } catch (error) {
           assert(error.reason == 'Not in a report time window', error.reason)

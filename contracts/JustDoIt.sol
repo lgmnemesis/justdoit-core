@@ -15,6 +15,7 @@ contract JustDoIt {
         uint deadline;
         uint supprtersAmountStaked;
         Result resultFromOwner;
+        string ownerReportPath;
         uint successes;
         uint failures;
         bool canBeRewarded;
@@ -35,7 +36,7 @@ contract JustDoIt {
 
     event ChallengeAdded(bytes32 id, address indexed owner, string name, uint amountStaked, string token, uint indexed deadline);
     event SupportChallenge(address indexed supporter, bytes32 indexed id, uint amountStaked);
-    event OwnerReportResult(bytes32 id, address indexed owner, Result result);
+    event OwnerReportResult(bytes32 id, address indexed owner, Result result, string path);
     event SupporterReportResult(bytes32 id, address indexed supporter, Result result);
 
     constructor(address _deployer, address _jdiToken) {
@@ -126,7 +127,7 @@ contract JustDoIt {
         require(msg.value > 0, 'No funds supplied');
         require(_deadline >= block.timestamp + 1 days, 'Deadline too short');
         require(challenges[_id].deadline == 0, 'Challenge already exists');
-        challenges[_id]  = Challenge(_id, msg.sender, msg.value, _deadline, 0, Result.Initial, 0, 0, true, false, 0);
+        challenges[_id]  = Challenge(_id, msg.sender, msg.value, _deadline, 0, Result.Initial, '', 0, 0, true, false, 0);
         emit ChallengeAdded(_id, msg.sender, _name, msg.value, 'ETH', _deadline);
     }
 
@@ -134,6 +135,7 @@ contract JustDoIt {
         require(msg.value > 0, 'No funds supplied');
         require(challenges[_id].owner != msg.sender, 'You are the owner');
         require(challenges[_id].deadline > block.timestamp, 'Challenge deadline is over');
+        supporters[msg.sender][_id].result = Result.Initial;
         supporters[msg.sender][_id].amountStaked += msg.value;
         challenges[_id].supprtersAmountStaked += msg.value;
         if (supporters[msg.sender][_id].amountStaked == msg.value) {
@@ -149,10 +151,11 @@ contract JustDoIt {
         emit SupporterReportResult(_id, msg.sender, _result);
     }
     
-    function ownerReportResult(bytes32 _id, Result _result) canReport(_id, true) external {
+    function ownerReportResult(bytes32 _id, Result _result, string memory _path) canReport(_id, true) external {
         require(_result != Result.Initial, 'Can only report Success or Failure');
         challenges[_id].resultFromOwner = _result;
-        emit OwnerReportResult(_id, msg.sender, _result);
+        challenges[_id].ownerReportPath = _path;
+        emit OwnerReportResult(_id, msg.sender, _result, _path);
     }
 
     function collectOwnerRewards(bytes32 _id) challengeIsOver(_id) external {
@@ -222,8 +225,10 @@ contract JustDoIt {
         require(isReportTime(_id, isOwner), 'Not in a report time window');
         if (isOwner) {
             require(challenges[_id].owner == msg.sender, 'Not your challenge');
+            require(challenges[_id].resultFromOwner == Result.Initial, 'Owner already reported');
         } else {
             require(supporters[msg.sender][_id].amountStaked > 0, 'You are not supporting this challenge');
+            require(supporters[msg.sender][_id].result == Result.Initial, 'Supporter already voted');
             require(challenges[_id].resultFromOwner == Result.Success, 'Owner did not report any result yet or reported failure');
         }
         _;
