@@ -26,6 +26,7 @@ contract('JustDoIt', (accounts) => {
     const amountToSupport = '0.2'
     const reportPath = 'this_is_an_ipfs_path_hash'
     let date, correctDeadLine, passedDeadLine
+    const onlyTime = false
 
     before('', async () => {
       date = (await time.latest()).toNumber()
@@ -33,6 +34,22 @@ contract('JustDoIt', (accounts) => {
       passedDeadLine = date + 60 * 60 * 23
       instance = await JustDoIt.deployed()
       jdiToken = await JDIToken.deployed()
+
+      if (onlyTime) {
+        console.log('Only increasing blockchain timestamp')
+        // const duration = 172800 // 2 days
+        const duration = 34 * 60 * 60 // 34 hours
+        await time.increase(duration)
+      }
+    })
+
+    describe('', () => {
+      it('', () => {
+        if (onlyTime) {
+          console.log('Exiting')
+          process.exit(0)
+        }
+      })
     })
 
     describe('New Challenge Tests', () => {
