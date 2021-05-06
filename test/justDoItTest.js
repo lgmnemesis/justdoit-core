@@ -38,13 +38,13 @@ contract('JustDoIt', (accounts) => {
       if (onlyTime) {
         console.log('Only increasing blockchain timestamp')
         // const duration = 172800 // 2 days
-        const duration = 34 * 60 * 60 // 34 hours
+        const duration = 100 * 60 * 60 // 50 hours
         await time.increase(duration)
       }
     })
 
     describe('', () => {
-      it('', () => {
+      it('Internal', () => {
         if (onlyTime) {
           console.log('Exiting')
           process.exit(0)

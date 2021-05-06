@@ -106,7 +106,7 @@ contract JustDoIt {
     function _getSupporterRewards(bytes32 _id) internal view returns (uint , uint) {
         Result finalResult = _getFinalResult(_id);
         Result supporterResult = supporters[msg.sender][_id].result;
-        if (finalResult == supporterResult) {
+        if (finalResult == supporterResult || challenges[_id].resultFromOwner != Result.Success) {
             // 1. Incase of a failure, should receive his staked amount.
             uint amountStaked = finalResult == Result.Failure ? supporters[msg.sender][_id].amountStaked : 0;
 
@@ -215,6 +215,13 @@ contract JustDoIt {
         return challenges[_id].deadline > 0;
     }
 
+    function _isChallengeOver(bytes32 _id) internal view returns(bool) {
+        Challenge memory challenge = challenges[_id];
+        return block.timestamp > challenge.deadline + 1 weeks 
+        || challenge.resultFromOwner == Result.Failure 
+        || (block.timestamp > challenge.deadline + 2 days && challenge.resultFromOwner != Result.Success);
+    }
+
     modifier challengeExists(bytes32 _id) {
         require(_isChallengeExists(_id), 'Challenge not found');
         _;
@@ -236,7 +243,7 @@ contract JustDoIt {
 
     modifier challengeIsOver(bytes32 _id) {
         require(_isChallengeExists(_id), 'Challenge not found');
-        require(block.timestamp > challenges[_id].deadline + 1 weeks, 'Challenge reporting is still going');
+        require(_isChallengeOver(_id), 'Challenge reporting is still going');
         _;
     }
 }
