@@ -1,7 +1,7 @@
 const { time } = require('@openzeppelin/test-helpers')
 
 const JDIToken = artifacts.require('JDIToken')
-const JustDoIt = artifacts.require('JustDoIt_V2')
+const JustDoIt = artifacts.require('JustDoIt_V3')
 
 const Result = {
   success: 1,
