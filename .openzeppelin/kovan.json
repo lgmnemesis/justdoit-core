@@ -290,6 +290,151 @@
           }
         }
       }
+    },
+    "0c37175a6f5cf75829b62040928899655da8e6e52a155175293d329d24593569": {
+      "address": "0x68D34F71D528F5D80d14208E7C9a27444d976023",
+      "txHash": "0x64bedb3e77b73c61579084c0a6414820d7d0b408cc6e742164b0b6b0c58c7a74",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt_V3",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V3.sol:8"
+          },
+          {
+            "contract": "JustDoIt_V3",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V3.sol:32"
+          },
+          {
+            "contract": "JustDoIt_V3",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V3.sol:33"
+          },
+          {
+            "contract": "JustDoIt_V3",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)2577_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V3.sol:34"
+          },
+          {
+            "contract": "JustDoIt_V3",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)2569_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V3.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)2577_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt_V3.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)2577_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V3.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)2577_storage": {
+            "label": "struct JustDoIt_V3.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)2543"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)2543": {
+            "label": "enum JustDoIt_V3.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)2569_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V3.Challenge)"
+          },
+          "t_struct(Challenge)2569_storage": {
+            "label": "struct JustDoIt_V3.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)2543"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
     }
   },
   "proxies": [
