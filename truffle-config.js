@@ -1,5 +1,5 @@
 require('dotenv').config()
-const HDWalletProvider = require('truffle-hdwallet-provider-privkey')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 const privateKey = process.env['PRIVATE_KEY']
 const endpointUrl = process.env['END_POINT_URL']
 
@@ -10,13 +10,23 @@ module.exports = {
       port: 7545, // Standard Ethereum port (default: none)
       network_id: '*', // Any network (default: none)
     },
+    // kovan: {
+    //   provider: function () {
+    //     return new HDWalletProvider([privateKey], endpointUrl)
+    //   },
+    //   gas: 5000000,
+    //   gasPrice: 25000000000,
+    //   network_id: 42,
+    // },
     kovan: {
-      provider: function () {
-        return new HDWalletProvider([privateKey], endpointUrl)
-      },
-      gas: 5000000,
-      gasPrice: 25000000000,
-      network_id: 42,
+      // must be a thunk, otherwise truffle commands may hang in CI
+      provider: () =>
+        new HDWalletProvider({
+          privateKeys: [privateKey],
+          providerOrUrl: endpointUrl,
+          chainId: '42',
+        }),
+      network_id: '42',
     },
     // Another network with more advanced options...
     // advanced: {

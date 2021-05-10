@@ -1,0 +1,751 @@
+{
+  "manifestVersion": "3.2",
+  "impls": {
+    "8b4402e516035af805cf19c7a2b9589ecf4ea42b0eea4a1cc8fbbe5d93a970ad": {
+      "address": "0x08a2F5c254ab7473a016b63B802Aaa253E889608",
+      "txHash": "0x82f1e6943b6a3f0478a006470305e0016acdabd523c933e924114fbf2640e697",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:8"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:32"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:33"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)125_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:34"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)117_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)125_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)125_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)125_storage": {
+            "label": "struct JustDoIt.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)91"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)91": {
+            "label": "enum JustDoIt.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)117_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt.Challenge)"
+          },
+          "t_struct(Challenge)117_storage": {
+            "label": "struct JustDoIt.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)91"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    },
+    "7f4fabf676e16f38c580f47cc5421b4bfe7792e452c06df11c81a93af147a1ff": {
+      "address": "0xbEbB431038ED53Faa83f6C6c05285Bb6f87a3bd6",
+      "txHash": "0x397027a846d4bd1f33a416d52857f9d42c86bc8ac1a8facd92e500ab8b93d5a7",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt_V2",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:8"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:32"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:33"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:34"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt_V2.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)1351_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)1351_storage": {
+            "label": "struct JustDoIt_V2.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)1317"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)1317": {
+            "label": "enum JustDoIt_V2.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Challenge)"
+          },
+          "t_struct(Challenge)1343_storage": {
+            "label": "struct JustDoIt_V2.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)1317"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    },
+    "d827f74d6479b2bfdd13dc2db45717455e6f641f2b53252b5d93027351d2de85": {
+      "address": "0xF7584Fd97910931d86bb055b15d81ce18a77DfC7",
+      "txHash": "0x180b95cc71b9b40eca7df132abe53fb432354bfa96408299efceec6708c058d4",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt_V2",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:8"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:32"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:33"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:34"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt_V2.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)1351_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)1351_storage": {
+            "label": "struct JustDoIt_V2.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)1317"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)1317": {
+            "label": "enum JustDoIt_V2.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Challenge)"
+          },
+          "t_struct(Challenge)1343_storage": {
+            "label": "struct JustDoIt_V2.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)1317"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  },
+  "proxies": [
+    {
+      "address": "0xE58A6e1a79Ec89C03FA776FbA19a7d4c33E6d67d",
+      "kind": "transparent",
+      "txHash": "0xad4530b5e887899527806cb6ace2a34dba0615565ba64e64f6f97e817efdad1f"
+    },
+    {
+      "address": "0x23DA23B2aFD712a53f3b8863E20bE92373baDb3D",
+      "kind": "transparent",
+      "txHash": "0x235e16c1aeccdef69ac24beda24039b2f12016832fd39d7049e414cd004b6552"
+    },
+    {
+      "address": "0x61155e3a09338e42840C7291D851EFDFaFe33B57",
+      "kind": "transparent",
+      "txHash": "0xe00af4ebae3bf5aae2bc950a02a2858d3dbd25c5142e8166242df0371b821581"
+    },
+    {
+      "address": "0x1930ad22223A92C062E6B67C0a4Fad79ad30217A",
+      "kind": "transparent",
+      "txHash": "0x7feae8e40e15dbdb5dc8f99307c73913eae564abdabb5f46a3ae9e94cb97c33e"
+    },
+    {
+      "address": "0xEdA334837D1E60FfEcd9A2b01541c847D9dD33Af",
+      "kind": "transparent",
+      "txHash": "0xc9c9b403a21358ff241b125ca66dbe96c09b78f96e01b351e3bf04c301f7a32f"
+    },
+    {
+      "address": "0x38c8877f20C89B3130EfE6B803499Ed5E3545986",
+      "kind": "transparent",
+      "txHash": "0xcc01d195f635831dd1c9842a04b07cf218290e1d2b19199f5392cec9dc96b195"
+    },
+    {
+      "address": "0x9D31448F212998416D741bfF63399546f1D54C0c",
+      "kind": "transparent",
+      "txHash": "0xefec17354c248aee7fd44ebfe5eff49eef2e5ff65a0309dfddf3aadf4dcebc04"
+    },
+    {
+      "address": "0x7c2F41697a4afD10616D91EA78D9b361001C7B3F",
+      "kind": "transparent",
+      "txHash": "0xc2ea1a7ba6ad328afedb5b5811c5c353ea7ba35f1fc350885757912da7bf2d74"
+    },
+    {
+      "address": "0xB0B7CD17237e880e4fe6e9CffaCf1F1aeA6CD4B2",
+      "kind": "transparent",
+      "txHash": "0x8c392d228b2492c286ab3df67d3ae9ce5fc0ad19c839a08c7ef037fccff0f2d1"
+    },
+    {
+      "address": "0xdBf1a9cA52C7B8A11D5536E793f6B04E3f60DbE6",
+      "kind": "transparent",
+      "txHash": "0x5923ff684eb1e43fbc3109895cd70114a058ca9b2c0ddb518ac11c8cca8debc5"
+    },
+    {
+      "address": "0xe6233af494abe4a5E305B65A8Db7aFd2Bec0E212",
+      "kind": "transparent",
+      "txHash": "0x2a7d8d36d25525f1b4601339b80a78e67a76420cfa291a453f0f8d50669a1844"
+    },
+    {
+      "address": "0xC7841F2a55Fef68ebCe230d2F9D8a1E910cAe1A5",
+      "kind": "transparent",
+      "txHash": "0xa97f5913750e867fdc39f352257eabb261b99edfe215af5fb572057fee11a437"
+    },
+    {
+      "address": "0xbDa255e82F4D26d82a32D137B38Eb503490361E1",
+      "kind": "transparent",
+      "txHash": "0x7f5bae6121919ee5a909ded698fb34ee5900bf86ff496a93734192d3f3e9f256"
+    },
+    {
+      "address": "0xb0177f07578CCFbe9f597D9F8C0978EdB45719c0",
+      "kind": "transparent",
+      "txHash": "0x117d69e91eb93da13977c84da7f2a9744d048fb4cf9aef46e7fdcfaa5a3665c4"
+    },
+    {
+      "address": "0x7f414Fb3ff708AB8164Ba0F51a3a127e636cAF3f",
+      "kind": "transparent",
+      "txHash": "0xe8dccdb275ad7fd417c6e00a51d396983819fc5361aca07e31ce12ac28d6a03e"
+    },
+    {
+      "address": "0x1a06e40457742eD499440294beF412063421511F",
+      "kind": "transparent",
+      "txHash": "0x74d6172dc1f9055871960fe8a5de9fb9f9cc95d4116f3edd5fd41fcdc93a2076"
+    },
+    {
+      "address": "0x5c0630373803E747dda093DDBf63AB2e4c45DA87",
+      "kind": "transparent",
+      "txHash": "0x137fa9e8da59324419c1a10f87886b90f4f672ed4789d9a3ca1a139aa5ace23d"
+    },
+    {
+      "address": "0x70eA9336f35cbB23Af3FEf4CB1f9Cd6b94f3fc9d",
+      "kind": "transparent",
+      "txHash": "0x9f749983c6111d41ccb0d3e286f567db7e35a22d50db820b7b8f87e0d457e3db"
+    },
+    {
+      "address": "0xeAe15B8Ea75fE036B9f058DDDfdD638D41b7f77C",
+      "kind": "transparent",
+      "txHash": "0xa333f8ef607d0de820aeb58dbc20de909d7ed318eabf588c3cff020cc450f6f0"
+    },
+    {
+      "address": "0x29a1E6a92C9CcA21bAeEA233A9caE567CAC782c4",
+      "kind": "transparent",
+      "txHash": "0x85da47d67de63b094bd4d7d3bd229b0486e945936a8ceceea8fc4c233a61588e"
+    },
+    {
+      "address": "0xAE6F70bf8b3B6199d9b411EA0E7Fa225d12E7A53",
+      "kind": "transparent",
+      "txHash": "0xf0e9fdb7f08bc58f37b640740b101b261900a06653bf17a0e0dd84cb8d92084f"
+    },
+    {
+      "address": "0x1b23E6449C0eBdb8198C10751F92F6410DC0bfCE",
+      "kind": "transparent",
+      "txHash": "0x388787e180c0446c14b43a08fcff5b06b343d6302a887b86fd070e20ff4002fb"
+    },
+    {
+      "address": "0x05bE34605e16A01D575240abA3154Dd2Bd36d008",
+      "kind": "transparent",
+      "txHash": "0xaf3a719808beee2e261d06405daad5dc4ad35b52f346111015cb46957721f17c"
+    },
+    {
+      "address": "0xb7e88ec7685963f51f23E8A1Af5Eb434e01852aE",
+      "kind": "transparent",
+      "txHash": "0x11c6ad8614adc5f7b6ef8136d5088544312e2c44cbf8eb36566aa50a147dcb56"
+    },
+    {
+      "address": "0x0a513D8be102BfD3f7DbbAe6ed9e76512092c754",
+      "kind": "transparent",
+      "txHash": "0x99d6a11d9c9cdce6a8df91c390258905e9b2b7d452dc314be22cfb66f6c850b5"
+    },
+    {
+      "address": "0x4f3360bEB67674e9047A38A982e03f6d56c83de7",
+      "kind": "transparent",
+      "txHash": "0xd12e848435f29e2aaf3aba4b99a9285f81b68f047ee2ea75f0284ec8425ca718"
+    },
+    {
+      "address": "0x7a4946C355e888cbD9Db5806dd4f72C8bB2deF3C",
+      "kind": "transparent",
+      "txHash": "0x08b42b8eaec92643e690b95108142ab1f354ce305ebef7baeac5cf23466f2e48"
+    },
+    {
+      "address": "0xFDe7b474A6Ef0919f0E2Ac5Ba97dC358b8C86dbb",
+      "kind": "transparent",
+      "txHash": "0xff59e6455b97e6d08c2f678994c5119ffe74cf93d8bc01417c3a543965643ae8"
+    },
+    {
+      "address": "0x36A033C917348a9c66facF01d9Df0e5b59DF89C0",
+      "kind": "transparent",
+      "txHash": "0xce9b3980285f553fc8b7d94d97f599ca64a0ff13c05868e9d8fceeff42d7cc31"
+    },
+    {
+      "address": "0x963eB853e933322C72c1cc995a95C855d5130b5C",
+      "kind": "transparent",
+      "txHash": "0xab506bf9e8c99f7c477ea8f850907f6f4c0b4a1377b4f4fddab13e90e5fdcc62"
+    },
+    {
+      "address": "0x7601ca1C4ECeB3D362C918027E12C899b8B81761",
+      "kind": "transparent",
+      "txHash": "0x011085bd0be7467751f5c07b70dfd2714e04326f0469b5a191936e0ee49ad71b"
+    },
+    {
+      "address": "0x1115762e42015B5eC0c4a03BBb9E192986CD677b",
+      "kind": "transparent",
+      "txHash": "0x32d74be2e90b0933c2a38c544e617331b001b324df6fc0adddb733abda10e522"
+    },
+    {
+      "address": "0xcEB9D29DeE32D196618DC9FD209035888c4b0e72",
+      "kind": "transparent",
+      "txHash": "0xed16e4342fac334986b336436336c093a6d41ac79ffdcec4d840f10e8f8e0293"
+    },
+    {
+      "address": "0xE5A935be1E816aAfC9222F406bFF12D9C49E8CDE",
+      "kind": "transparent",
+      "txHash": "0x417d9e6de5c13951c1a39e334f3101c6827440bc02bade7027c8bc8c978b0a5b"
+    },
+    {
+      "address": "0xe56Ce5f3251c53D87A271211c15Ef71c02f4D4db",
+      "kind": "transparent",
+      "txHash": "0xd066d2b8bde3ee4558ad53cf2c19f71ed1bec19df6b43da73b16835098702e5c"
+    },
+    {
+      "address": "0xA576B1aB0D7dDA888f4Aa1b73038c1E66FbFc2c8",
+      "kind": "transparent",
+      "txHash": "0x1e1731a2a06b8275696a27b7ebb3737ca49b2a990373c299f76b090c1d59ba5f"
+    },
+    {
+      "address": "0x11E34991c1d7Ba51d2b21b6f97c04998fbE8Ac02",
+      "kind": "transparent",
+      "txHash": "0x07094308f2b5029f626f9118d3a3b7a446ca316e6ef33e4feef4927cfaeed3e2"
+    },
+    {
+      "address": "0x32c9a883fF5AADAddeFA52da3CB985865Dca8Bf0",
+      "kind": "transparent",
+      "txHash": "0x2d4774f5cb3037d46ea2dcc9f03fe4536ac9a806ff54a85d680a07f7e6746321"
+    },
+    {
+      "address": "0x8a9490aaA8CF4524113986eD2A7B6e33C8A6e5F9",
+      "kind": "transparent",
+      "txHash": "0x5ecf9c25042feddf9d749b615c1a8e04ffd2a40cbbcdcf6e610621ce15ecbf02"
+    },
+    {
+      "address": "0xc27ab5f8592C61CB7ECe0E86BcB8B6df6BFABed3",
+      "kind": "transparent",
+      "txHash": "0xcfe4fad3088af2ea31b385af6513756fd84f9764cc810a5dcd2348d88d46d25f"
+    },
+    {
+      "address": "0xF80E488038A5A13f2D2cc2C3a23029a86De90ABC",
+      "kind": "transparent",
+      "txHash": "0x9de253a6fe7e2a849beef621d1c3abdf6a47688a50e6cb0613885ab1508e317e"
+    },
+    {
+      "address": "0xf2762D339Ded8755c2Ef8A8D1b086BA721daDdeC",
+      "kind": "transparent",
+      "txHash": "0xd77dd34506beb1d9e987f6136dbb28243f51602c1a3340770d6d60b359034c47"
+    },
+    {
+      "address": "0x3F971B33535EA2B8131276a9d77cd77B097dF28E",
+      "kind": "transparent",
+      "txHash": "0x94850842fc0acabd2cdbbafc9cd7afa6e57a0baa49b9da104ca3bc459efdaba6"
+    },
+    {
+      "address": "0x82B43CdcA2d1629f87c3754F7509Cf3060B9b460",
+      "kind": "transparent",
+      "txHash": "0x8fb7c5d6967587def2328dd214ea70d83165305a12998d833ba94dfaac9cb4ec"
+    },
+    {
+      "address": "0x4943798900A1d0ba02be15B7dc95Ea9fc7ffc124",
+      "kind": "transparent",
+      "txHash": "0xf0580294eea59b7d2e1e92e97c7ba0238507b1c51d4bdeb1f688ebe75a7de87e"
+    },
+    {
+      "address": "0xC67B5E68f902dc889a94Be5d1be1226A18b9B4a7",
+      "kind": "transparent",
+      "txHash": "0x9aaa7db235a16b8a8a088cabbc3a7b4324c11f4dab247770e5699a7a197e46ba"
+    },
+    {
+      "address": "0x3A24ec64BF77C141d94C9B7A6B0624dD4B6Df7BD",
+      "kind": "transparent",
+      "txHash": "0xa7bc93f5356824a03b4d502c5db6395f5242e619ec82e8a6f11f3bc6d66183d5"
+    },
+    {
+      "address": "0xBa9d8d63F7081e32C35A7176d3fD576bdd5e4bC3",
+      "kind": "transparent",
+      "txHash": "0xe05b852615e8af744ea6cef6e4b970561a0d467981ee862720bdf061bab742ed"
+    },
+    {
+      "address": "0xFa51de055CacE05529c83CEd443cAbD00198017E",
+      "kind": "transparent",
+      "txHash": "0x2fc6784ecfc39917c38e5b188a3cffe424c66fbd1d6cb67b7e944d87a3b939e2"
+    },
+    {
+      "address": "0x1A39a56DFBdf9e044FAd7Ef2602b4a21d5DbD9ba",
+      "kind": "transparent",
+      "txHash": "0xd46891a892df666d27d5373ed6ca9580a4c010b0300d5ecb85c9108e3a6c3284"
+    },
+    {
+      "address": "0x71928d013D36B55088F8C60e0F3F5Be7e47CC8C4",
+      "kind": "transparent",
+      "txHash": "0x9c105fae0bd616b36885efa7e9d3a983a5c0c087bd01eca53f81b580fd130b86"
+    },
+    {
+      "address": "0x015534481020aF6b3FFCE657D4140CAce280f225",
+      "kind": "transparent",
+      "txHash": "0x009b10b0270dbb53e69a7900671c94e30c604fa14f1bbd9201e85d738a460e14"
+    },
+    {
+      "address": "0x01dc47166aB649D70be360591d9FFfE04780aaA5",
+      "kind": "transparent",
+      "txHash": "0x2bbf494ab9b7c0360fd99a9b5be6c6d77d350f04c32695333c6fccd524e8c2d5"
+    },
+    {
+      "address": "0x0956407602c32FDF45A69F88B9328817A25c9269",
+      "kind": "transparent",
+      "txHash": "0x6b070604d325d505be75f6182e3fb5c790d2e2c616b7a2d0fd4a6b986270aed8"
+    },
+    {
+      "address": "0x977D8edb8C93159714E1f014aAeC5f7Dd19d9b9e",
+      "kind": "transparent",
+      "txHash": "0x6863d1fc81aa2ce672951e291aef4619b7b91446585a7ef9f5c53512c749fa1c"
+    },
+    {
+      "address": "0x00EE6a6067c37a0E0C0771174e6791c49ABA66B9",
+      "kind": "transparent",
+      "txHash": "0x74a1fbe4dcd5edfd6b49daf937dbabb5b557d0df36357179b8074200319507f1"
+    },
+    {
+      "address": "0xa38FD0054d66A6A752872c846eE330833694A395",
+      "kind": "transparent",
+      "txHash": "0xe57859fd260ad12bb0a967b56fe80755ce3d416dd2374a313c32459d655ca974"
+    },
+    {
+      "address": "0xEf033660D0cA8062b1A4F405Dd49624472B7d820",
+      "kind": "transparent",
+      "txHash": "0x792128e25abdba5989cb2a513cee6b9e975e21ad808835ffc73434fa768edc7c"
+    },
+    {
+      "address": "0xE8f00a0175e938b1A4D2fbF8cdc1EFAe7fe0e390",
+      "kind": "transparent",
+      "txHash": "0x1635146b1a96a5b4757e72758b2c18e3214f0669d3e2790cf0f8f4ab734f8557"
+    },
+    {
+      "address": "0xf47A8A2d6005850387c7E0DCbffcd795dF4D52d2",
+      "kind": "transparent",
+      "txHash": "0xcf1b6d9c1ca2ab4a93e6a1075b82db3bd5ef9051ab0d554ad74c6ee371af2054"
+    },
+    {
+      "address": "0xC0A3804BBd9F3658B3088C9A188ED854833Ba6bd",
+      "kind": "transparent",
+      "txHash": "0x7ee4784ad09f017915e5c3ef69a066f68a2ab22670177935059056d8351feaf6"
+    }
+  ],
+  "admin": {
+    "address": "0x27225Ceb073355f144282b75aBe42A047C628a16",
+    "txHash": "0x5c1c77a3eac008eaf508a17855b911a7cecd87af77ce80f45f563c4e4ebd6220"
+  }
+}

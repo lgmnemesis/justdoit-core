@@ -1,0 +1,306 @@
+{
+  "manifestVersion": "3.2",
+  "impls": {
+    "8b4402e516035af805cf19c7a2b9589ecf4ea42b0eea4a1cc8fbbe5d93a970ad": {
+      "address": "0x08a2F5c254ab7473a016b63B802Aaa253E889608",
+      "txHash": "0xef4fa9c1c8efb676834d8fca37e4abc6da7fbb40c0821ab0ce625cf29ea14544",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:8"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:32"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:33"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)125_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:34"
+          },
+          {
+            "contract": "JustDoIt",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)117_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)125_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)125_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)125_storage": {
+            "label": "struct JustDoIt.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)91"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)91": {
+            "label": "enum JustDoIt.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)117_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt.Challenge)"
+          },
+          "t_struct(Challenge)117_storage": {
+            "label": "struct JustDoIt.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)91"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    },
+    "7f4fabf676e16f38c580f47cc5421b4bfe7792e452c06df11c81a93af147a1ff": {
+      "address": "0xbEbB431038ED53Faa83f6C6c05285Bb6f87a3bd6",
+      "txHash": "0xd0a3a8183724fb22aa186c7fb4e2872f7e903ab43b4bcf1ba19b4c02c1f9a7a9",
+      "layout": {
+        "storage": [
+          {
+            "contract": "JustDoIt_V2",
+            "label": "jdiToken",
+            "type": "t_contract(JDIToken)81",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:8"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "deployer",
+            "type": "t_address",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:32"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "totalFeesAmount",
+            "type": "t_uint256",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:33"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "supporters",
+            "type": "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:34"
+          },
+          {
+            "contract": "JustDoIt_V2",
+            "label": "challenges",
+            "type": "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)",
+            "src": "..\\..\\..\\..\\C\\Lgm local\\justdoit\\justdoit-core\\contracts\\JustDoIt_V2.sol:35"
+          }
+        ],
+        "types": {
+          "t_contract(JDIToken)81": {
+            "label": "contract JDIToken"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_mapping(t_address,t_mapping(t_bytes32,t_struct(Supporting)1351_storage))": {
+            "label": "mapping(address => mapping(bytes32 => struct JustDoIt_V2.Supporting))"
+          },
+          "t_mapping(t_bytes32,t_struct(Supporting)1351_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Supporting)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_struct(Supporting)1351_storage": {
+            "label": "struct JustDoIt_V2.Supporting",
+            "members": [
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "gotRewards",
+                "type": "t_bool"
+              },
+              {
+                "label": "result",
+                "type": "t_enum(Result)1317"
+              }
+            ]
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_enum(Result)1317": {
+            "label": "enum JustDoIt_V2.Result",
+            "members": [
+              "Initial",
+              "Success",
+              "Failure"
+            ]
+          },
+          "t_mapping(t_bytes32,t_struct(Challenge)1343_storage)": {
+            "label": "mapping(bytes32 => struct JustDoIt_V2.Challenge)"
+          },
+          "t_struct(Challenge)1343_storage": {
+            "label": "struct JustDoIt_V2.Challenge",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "owner",
+                "type": "t_address"
+              },
+              {
+                "label": "amountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "deadline",
+                "type": "t_uint256"
+              },
+              {
+                "label": "supprtersAmountStaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "resultFromOwner",
+                "type": "t_enum(Result)1317"
+              },
+              {
+                "label": "ownerReportPath",
+                "type": "t_string_storage"
+              },
+              {
+                "label": "successes",
+                "type": "t_uint256"
+              },
+              {
+                "label": "failures",
+                "type": "t_uint256"
+              },
+              {
+                "label": "canBeRewarded",
+                "type": "t_bool"
+              },
+              {
+                "label": "gotFees",
+                "type": "t_bool"
+              },
+              {
+                "label": "supporters",
+                "type": "t_uint256"
+              }
+            ]
+          },
+          "t_string_storage": {
+            "label": "string"
+          }
+        }
+      }
+    }
+  },
+  "proxies": [
+    {
+      "address": "0xC0A3804BBd9F3658B3088C9A188ED854833Ba6bd",
+      "kind": "transparent",
+      "txHash": "0xfca613b243e894099302da0ee92137baf70e6486f9f1375b8ee28e47efe3a9b5"
+    }
+  ],
+  "admin": {
+    "address": "0x27225Ceb073355f144282b75aBe42A047C628a16",
+    "txHash": "0xceb1e61f179125c69b56397c0bfe225645ab0c7364cddd5342921a22cbbd6d01"
+  }
+}

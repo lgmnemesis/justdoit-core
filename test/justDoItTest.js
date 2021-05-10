@@ -1,6 +1,7 @@
 const { time } = require('@openzeppelin/test-helpers')
-const JustDoIt = artifacts.require('JustDoIt')
+
 const JDIToken = artifacts.require('JDIToken')
+const JustDoIt = artifacts.require('JustDoIt_V2')
 
 const Result = {
   success: 1,
@@ -32,8 +33,8 @@ contract('JustDoIt', (accounts) => {
       date = (await time.latest()).toNumber()
       correctDeadLine = date + 60 * 60 * 25
       passedDeadLine = date + 60 * 60 * 23
-      instance = await JustDoIt.deployed()
       jdiToken = await JDIToken.deployed()
+      instance = await JustDoIt.deployed()
 
       if (onlyTime) {
         console.log('Only increasing blockchain timestamp')

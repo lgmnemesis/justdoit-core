@@ -3,7 +3,7 @@ pragma solidity >=0.7 <0.9.0;
 
 import './JDIToken.sol';
 
-contract JustDoIt {
+contract JustDoIt_V2 {
 
     JDIToken public jdiToken;
     enum Result {Initial, Success, Failure}
@@ -248,6 +248,6 @@ contract JustDoIt {
     }
 
     function getVersion() external pure returns(string memory) {
-        return '1.0.0';
+        return '2.0.0';
     }
 }
