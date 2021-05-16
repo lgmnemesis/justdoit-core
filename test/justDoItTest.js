@@ -1,7 +1,10 @@
 const { time } = require('@openzeppelin/test-helpers')
 
+require('dotenv').config({ path: '.env.public' })
+const UPDATED_CONTRACT_NAME = process.env['UPDATED_CONTRACT_NAME']
+
 const JDIToken = artifacts.require('JDIToken')
-const JustDoIt = artifacts.require('JustDoIt_V3')
+const JustDoIt = artifacts.require(UPDATED_CONTRACT_NAME)
 
 const Result = {
   success: 1,
@@ -150,24 +153,29 @@ contract('JustDoIt', (accounts) => {
 
     describe('Supporting Challenge Tests', () => {
       it('Support a challenge', async () => {
-        const tx = await instance.supportChallenge(challengeID, {
-          from: supporter1,
-          value: web3.utils.toWei(amountToSupport, 'ether'),
-        })
-        const challenge = await instance.challenges(challengeID, {
-          from: supporter1,
-        })
+        try {
+          const tx = await instance.supportChallenge(challengeID, {
+            from: supporter1,
+            value: web3.utils.toWei(amountToSupport, 'ether'),
+          })
 
-        const log = tx.logs[0]
-        assert(
-          log.event == SupportChallengeEvent,
-          `Event ${SupportChallengeEvent} was not emitet`,
-        )
+          const supporter = await instance.getChallengeSupporter(challengeID, {
+            from: supporter1,
+          })
 
-        assert(
-          challenge.supporters == 1,
-          'Supporter1 was not added to challenge',
-        )
+          const log = tx.logs[0]
+          assert(
+            log.event == SupportChallengeEvent,
+            `Event ${SupportChallengeEvent} was not emitet`,
+          )
+
+          assert(
+            supporter.amountStaked > 0,
+            'Supporter1 was not added to challenge',
+          )
+        } catch (error) {
+          console.log('error:', error)
+        }
       })
 
       it('Add another supporter to the challenge', async () => {
@@ -175,11 +183,12 @@ contract('JustDoIt', (accounts) => {
           from: supporter2,
           value: web3.utils.toWei(amountToSupport, 'ether'),
         })
-        const challenge = await instance.challenges(challengeID, {
+        const supporter = await instance.getChallengeSupporter(challengeID, {
           from: supporter2,
         })
+
         assert(
-          challenge.supporters == 2,
+          supporter.amountStaked > 0,
           'Supporter2 was not added to challenge',
         )
       })

@@ -3,10 +3,16 @@ pragma solidity >=0.7 <0.9.0;
 
 import './JDIToken.sol';
 
-contract JustDoIt_V3 {
+contract JustDoIt_V3_0_1 {
 
     JDIToken public jdiToken;
     enum Result {Initial, Success, Failure}
+
+    struct Supporting {
+        uint amountStaked;
+        bool gotRewards;
+        Result result;
+    }
 
     struct Challenge {
         bytes32 id;
@@ -20,18 +26,11 @@ contract JustDoIt_V3 {
         uint failures;
         bool canBeRewarded;
         bool gotFees;
-        uint supporters;
-    }
-
-    struct Supporting {
-        uint amountStaked;
-        bool gotRewards;
-        Result result;
+        mapping(address => Supporting) supporters;
     }
 
     address public deployer;
     uint public totalFeesAmount;
-    mapping(address => mapping(bytes32 => Supporting)) public supporters;
     mapping(bytes32 => Challenge) public challenges;
 
     event ChallengeAdded(bytes32 id, address indexed owner, string name, uint amountStaked, string token, uint indexed deadline);
@@ -44,7 +43,7 @@ contract JustDoIt_V3 {
         jdiToken = JDIToken(_jdiToken);
     }
 
-    function getFinalResult(bytes32 _id) challengeIsOver(_id) external view returns(Result) {
+    function getFinalResult(bytes32  _id) challengeIsOver(_id) external view returns(Result) {
         return _getFinalResult(_id);
     }
 
@@ -53,23 +52,26 @@ contract JustDoIt_V3 {
     }
 
     function getOwnerRewards(bytes32 _id) challengeIsOver(_id) external view returns (uint, uint) {
-        Challenge memory challenge = _getChallenge(_id);
+        Challenge storage challenge = _getChallenge(_id);
         require(challenge.owner == msg.sender, 'You are NOT the owner');
         return _getOwnerRewards(_id, challenge);
     }
 
     function getSupporterRewards(bytes32 _id) challengeIsOver(_id) external view returns (uint, uint) {
-        Challenge memory challenge = _getChallenge(_id);
-        require(challenge.owner != msg.sender, 'You are the owner');
+        require(_getChallenge(_id).owner != msg.sender, 'You are the owner');
         return _getSupporterRewards(_id);
     }
 
-    function _getChallenge(bytes32 _id) challengeExists(_id) internal view returns (Challenge memory) {
+    function getChallengeSupporter(bytes32 _id) external view returns (Supporting memory) {
+        return challenges[_id].supporters[msg.sender];
+    }
+
+    function _getChallenge(bytes32 _id) challengeExists(_id) internal view returns (Challenge storage) {
         return challenges[_id];
     }
 
     function _getFinalResult(bytes32 _id) internal view returns(Result) {
-        Challenge memory challenge = _getChallenge(_id);
+        Challenge storage challenge = _getChallenge(_id);
         uint votedSuccess = challenge.successes;
         uint votedFailure = challenge.failures;
         Result finalResult = Result.Failure;
@@ -80,14 +82,13 @@ contract JustDoIt_V3 {
     }
 
     function _getFees(bytes32 _id) internal view returns (uint) {
-        Challenge memory challenge = _getChallenge(_id);
-        if (_getFinalResult(_id) != challenge.resultFromOwner) {
-            return challenge.amountStaked;
+        if (_getFinalResult(_id) != _getChallenge(_id).resultFromOwner) {
+            return _getChallenge(_id).amountStaked;
         }
         return 0;
     }
 
-    function _getOwnerRewards(bytes32 _id, Challenge memory challenge) internal view returns (uint, uint) {
+    function _getOwnerRewards(bytes32 _id, Challenge storage challenge) internal view returns (uint, uint) {
         Result finalResult = _getFinalResult(_id);
         Result ownerResult = challenge.resultFromOwner;
         if (finalResult == ownerResult) {
@@ -104,17 +105,16 @@ contract JustDoIt_V3 {
     }
 
     function _getSupporterRewards(bytes32 _id) internal view returns (uint , uint) {
+        Supporting memory supporter = _getChallenge(_id).supporters[msg.sender];
         Result finalResult = _getFinalResult(_id);
-        Result supporterResult = supporters[msg.sender][_id].result;
-        if (finalResult == supporterResult || challenges[_id].resultFromOwner != Result.Success) {
+        if (finalResult == supporter.result || challenges[_id].resultFromOwner != Result.Success) {
             // 1. Incase of a failure, should receive his staked amount.
-            uint amountStaked = finalResult == Result.Failure ? supporters[msg.sender][_id].amountStaked : 0;
+            uint amountStaked = finalResult == Result.Failure ? supporter.amountStaked : 0;
 
             // 2. Receive his proportional share from *10 of the amount staked, in JDI tokens, for supporting and voting honestly.
-            Challenge memory challenge = _getChallenge(_id);
-            uint totalAmount = challenge.supprtersAmountStaked;
+            uint totalAmount = _getChallenge(_id).supprtersAmountStaked;
             uint totalShare = totalAmount * 10;
-            uint JDIAmount = totalShare * supporters[msg.sender][_id].amountStaked / totalAmount;
+            uint JDIAmount = totalShare * supporter.amountStaked / totalAmount;
 
             return (amountStaked, JDIAmount);
         } else {
@@ -123,35 +123,38 @@ contract JustDoIt_V3 {
         }
     }
 
-    function addChallengeETH(bytes32 _id, string memory _name, uint _deadline) external payable {
+    function addChallengeETH(bytes32 _id, string calldata _name, uint _deadline) external payable {
         require(msg.value > 0, 'No funds supplied');
         require(_deadline >= block.timestamp + 1 days, 'Deadline too short');
         require(challenges[_id].deadline == 0, 'Challenge already exists');
-        challenges[_id]  = Challenge(_id, msg.sender, msg.value, _deadline, 0, Result.Initial, '', 0, 0, true, false, 0);
+        Challenge storage challenge = challenges[_id];
+        challenge.id = _id;
+        challenge.owner = msg.sender;
+        challenge.amountStaked = msg.value;
+        challenge.deadline = _deadline;
+        challenge.canBeRewarded = true;
+        challenge.gotFees = false;
         emit ChallengeAdded(_id, msg.sender, _name, msg.value, 'ETH', _deadline);
     }
 
     function supportChallenge(bytes32 _id) challengeExists(_id) external payable {
         require(msg.value > 0, 'No funds supplied');
-        require(challenges[_id].owner != msg.sender, 'You are the owner');
-        require(challenges[_id].deadline > block.timestamp, 'Challenge deadline is over');
-        supporters[msg.sender][_id].result = Result.Initial;
-        supporters[msg.sender][_id].amountStaked += msg.value;
-        challenges[_id].supprtersAmountStaked += msg.value;
-        if (supporters[msg.sender][_id].amountStaked == msg.value) {
-            challenges[_id].supporters++;
-        }
+        Challenge storage challenge = challenges[_id];
+        require(challenge.owner != msg.sender, 'You are the owner');
+        require(challenge.deadline > block.timestamp, 'Challenge deadline is over');
+        challenge.supporters[msg.sender] = Supporting({result: Result.Initial, amountStaked: msg.value, gotRewards: false});
+        challenge.supprtersAmountStaked += msg.value;
         emit SupportChallenge(msg.sender, _id, msg.value);
     }
 
     function supporterReportResult(bytes32 _id, Result _result) canReport(_id, false) external {
         require(_result != Result.Initial, 'Can only report Success or Failure');
         _result == Result.Success ? challenges[_id].successes++ : challenges[_id].failures++;
-        supporters[msg.sender][_id].result = _result; 
+        _getChallenge(_id).supporters[msg.sender].result = _result; 
         emit SupporterReportResult(_id, msg.sender, _result);
     }
     
-    function ownerReportResult(bytes32 _id, Result _result, string memory _path) canReport(_id, true) external {
+    function ownerReportResult(bytes32 _id, Result _result, string calldata _path) canReport(_id, true) external {
         require(_result != Result.Initial, 'Can only report Success or Failure');
         challenges[_id].resultFromOwner = _result;
         challenges[_id].ownerReportPath = _path;
@@ -174,11 +177,12 @@ contract JustDoIt_V3 {
     }
 
     function collectSupporterRewards(bytes32 _id) challengeIsOver(_id) external {
-        require(!supporters[msg.sender][_id].gotRewards, 'No more rewards');
-        require(supporters[msg.sender][_id].amountStaked > 0, 'You are not supporting this challenge');
+        Supporting storage supporter = _getChallenge(_id).supporters[msg.sender];
+        require(!supporter.gotRewards, 'No more rewards');
+        require(supporter.amountStaked > 0, 'You are not supporting this challenge');
         (uint amountStaked, uint JDIAmount) = _getSupporterRewards(_id);
 
-        supporters[msg.sender][_id].gotRewards = true;
+        supporter.gotRewards = true;
         if (JDIAmount > 0) {
             jdiToken.mint(msg.sender, JDIAmount);
         }
@@ -216,10 +220,9 @@ contract JustDoIt_V3 {
     }
 
     function _isChallengeOver(bytes32 _id) internal view returns(bool) {
-        Challenge memory challenge = challenges[_id];
-        return block.timestamp > challenge.deadline + 1 weeks 
-        || challenge.resultFromOwner == Result.Failure 
-        || (block.timestamp > challenge.deadline + 2 days && challenge.resultFromOwner != Result.Success);
+        return block.timestamp > challenges[_id].deadline + 1 weeks 
+        || challenges[_id].resultFromOwner == Result.Failure 
+        || (block.timestamp > challenges[_id].deadline + 2 days && challenges[_id].resultFromOwner != Result.Success);
     }
 
     modifier challengeExists(bytes32 _id) {
@@ -234,8 +237,8 @@ contract JustDoIt_V3 {
             require(challenges[_id].owner == msg.sender, 'Not your challenge');
             require(challenges[_id].resultFromOwner == Result.Initial, 'Owner already reported');
         } else {
-            require(supporters[msg.sender][_id].amountStaked > 0, 'You are not supporting this challenge');
-            require(supporters[msg.sender][_id].result == Result.Initial, 'Supporter already voted');
+            require(_getChallenge(_id).supporters[msg.sender].amountStaked > 0, 'You are not supporting this challenge');
+            require(_getChallenge(_id).supporters[msg.sender].result == Result.Initial, 'Supporter already voted');
             require(challenges[_id].resultFromOwner == Result.Success, 'Owner did not report any result yet or reported failure');
         }
         _;
@@ -248,6 +251,6 @@ contract JustDoIt_V3 {
     }
 
     function getVersion() external pure returns(string memory) {
-        return '3.0.0';
+        return '3.0.1';
     }
 }
