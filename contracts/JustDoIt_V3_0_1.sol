@@ -95,7 +95,7 @@ contract JustDoIt_V3_0_1 {
             // 1. If Success, receive his original staking + all supporters staking amounts.
             uint amountStaked = finalResult == Result.Success ? challenge.amountStaked + challenge.supprtersAmountStaked: 0;
 
-            // 2. Receive *1 of the staked amount in JDI tokens for trying to or completing the challenge.
+            // 2. Receive 1x of the staked amount in JDI tokens for trying to or completing the challenge.
             uint JDIAmount = challenge.amountStaked + challenge.supprtersAmountStaked;
             return (amountStaked, JDIAmount);
         } else {
@@ -111,7 +111,7 @@ contract JustDoIt_V3_0_1 {
             // 1. Incase of a failure, should receive his staked amount.
             uint amountStaked = finalResult == Result.Failure ? supporter.amountStaked : 0;
 
-            // 2. Receive his proportional share from *10 of the amount staked, in JDI tokens, for supporting and voting honestly.
+            // 2. Receive his proportional share from 10x of the amount staked, in JDI tokens, for supporting and voting honestly.
             uint totalAmount = _getChallenge(_id).supprtersAmountStaked;
             uint totalShare = totalAmount * 10;
             uint JDIAmount = totalShare * supporter.amountStaked / totalAmount;

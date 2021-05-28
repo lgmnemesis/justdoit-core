@@ -102,7 +102,7 @@ contract('JustDoIt', (accounts) => {
               value: web3.utils.toWei(amountToSpend, 'ether'),
             },
           )
-          asset(false, 'This should NOT ended successfully')
+          assert(false, 'This should NOT ended successfully')
         } catch (error) {
           const reason = error.reason
           assert(reason == 'Challenge already exists', `Error:${reason}`)
